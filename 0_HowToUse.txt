@@ -5,19 +5,15 @@ How To use:
 2. Run casutil (making a file for negative images paths)
 
 3. Run annotation program and give the pos.txt and Positive images path images:
-Example: C:\Users\nirbe\Downloads\opencv\build\x64\vc15\bin\opencv_annotation.exe --annotations=pos.txt --images=data/Positive/
+Example: opencv\build\x64\vc15\bin\opencv_annotation.exe --annotations=pos.txt --images=data/Positive/
 (making a file for positive images paths and objects position)
 
 4. Run samples program with the following param:
-C:\Users\nirbe\Downloads\opencv\build\x64\vc15\bin\opencv_createsamples.exe -info pos.txt -w 24 -h 24 -num 1200 -vec pos.vec 
+opencv\build\x64\vc15\bin\opencv_createsamples.exe -info pos.txt -w 24 -h 24 -num 1200 -vec pos.vec 
 (num depend on the positive images amount)
 
 5. Train the network with the following params:
-C:\Users\nirbe\Downloads\opencv\build\x64\vc15\bin\opencv_traincascade.exe -data cascade_newData/ -vec pos.vec -bg neg.txt -w 24 -h 24 -precalcValBufSize 6000 -precalcIdxBufSize 6000 -numPos 370 -numNeg 4000 -numStages 12 -maxFalseAlarmRate 0.34 -minHitRate 0.999
+opencv\build\x64\vc15\bin\opencv_traincascade.exe -data cascade_newData/ -vec pos.vec -bg neg.txt -w 24 -h 24 -precalcValBufSize 6000 -precalcIdxBufSize 6000 -numPos 370 -numNeg 4000 -numStages 12 -maxFalseAlarmRate 0.34 -minHitRate 0.999
 (numPos should be less than the number of samples created in step 4. numNeg should be around 10-20 times numPos)
 
 6. Run "owAimBot"
-
-
-
-* Do these steps in path "C:\Users\nirbe\OneDrive\מסמכים\0_owAimBotExpr"
