@@ -12,11 +12,11 @@ import tkinter as tk
 
 
 Charecter, Aim, Binds = "", "", {}
-mon = {'left': 560, 'top': 240, 'width': 800, 'height': 600}
+mon = {'left': 760, 'top': 400, 'width': 400, 'height': 280} #1080,1920
 
 def AimBot():
 
-    cascade_ow = cv2.CascadeClassifier("cascadeV2/cascade.xml")
+    cascade_ow = cv2.CascadeClassifier("cascadeV2.1/cascade.xml")
     vision_ow = Vision(None)
 
     Active = True
@@ -41,7 +41,7 @@ def AimBot():
             rectangles = cascade_ow.detectMultiScale(img)
             detection_image = vision_ow.draw_rectangles(img, rectangles)
 
-            cv2.imshow('test', detection_image)
+            cv2.imshow('Capture Window', detection_image)
             
             if (len(rectangles)>0 and Active):
                 targets = vision_ow.get_click_points(rectangles)
@@ -50,32 +50,37 @@ def AimBot():
                 for currTarget in targets:
                     pos_x = (currTarget[0] + mon['left'])
                     pos_y = (currTarget[1] + mon['top'])
-                    diff = math.sqrt((960-pos_x)**2 + (540-pos_y)**2)
+                    diff = math.sqrt((960-pos_x)**2 + (540-pos_y)**2)                   
                     if (diff < prevDiff):
                         target = currTarget
                         prevDiff = diff
                 pos_x = (target[0] + mon['left'])
                 pos_y = (target[1] + mon['top'])
-            
+
                 if (Aim == "Always"):
                     AlwaysAim(pos_x, pos_y)
                 else:
                     AimWhenShoot(pos_x, pos_y)
 
+            if Active and Charecter == "Genji" and (win32api.GetKeyState(0xA0) == -127 or win32api.GetKeyState(0xA0) == -128):
+                time.sleep(0.3)
+                win32api.mouse_event(win32con.MOUSEEVENTF_MOVE,  2820, 0)
+
             if keyboard.is_pressed(Binds["Kill"]):
                 break
+
             elif keyboard.is_pressed(Binds["OnOff"]):
                 if Active:
                     Active = False
                 else:
                     Active = True
                 time.sleep(0.5)
+
             elif keyboard.is_pressed(Binds["Capture"]):
                 detection_image = vision_ow.draw_rectangles(img, rectangles)
                 cv2.imwrite("data//Inspect//{}.jpg".format(loop_time), detection_image)
                 time.sleep(0.5)
     
-
 def UI():
     root = tk.Tk()
     ws = root.winfo_screenwidth() 
